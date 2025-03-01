@@ -33,7 +33,7 @@ const viewAuthor = (obj) => {
             <i id="delete-book-btn--${BookObj.firebaseKey}" class="btn btn-danger fas fa-trash-alt"></i>
         </div>
       </div>`);
-  const detStr = (bookString + domString);
-  renderToDOM('#view', detStr);
+  const domStr = (bookString + domString);
+  renderToDOM('#view', domStr);
 };
 export default viewAuthor;

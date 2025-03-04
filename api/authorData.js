@@ -3,8 +3,8 @@ import client from '../utils/client';
 const endpoint = client.databaseURL;
 
 // FIXME:  GET ALL AUTHORS
-const getAuthors = () => new Promise((resolve, reject) => {
-  fetch(`${endpoint}/authors.json`, {
+const getAuthors = (uid) => new Promise((resolve, reject) => {
+  fetch(`${endpoint}/authors.json?orderBy="uid"&equalTo="${uid}"`, {
     method: 'GET',
     headers: {
       'Content-type': 'application/json',
@@ -76,15 +76,18 @@ const updateAuthor = (payload) => new Promise((resolve, reject) => {
 });
 
 // TODO: FILTER AUTHOR BY FAVS
-const authorsByFav = () => new Promise((resolve, reject) => {
-  fetch(`${endpoint}/authors.json?orderBy="favorite"&equalTo=true`, {
+const authorsByFav = (uid) => new Promise((resolve, reject) => {
+  fetch(`${endpoint}/authors.json?orderBy="uid"&equalTo="${uid}"`, {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json',
     },
   })
     .then((response) => response.json())
-    .then((data) => resolve(Object.values(data).filter((item) => item.favorite)))
+    .then((data) => {
+      const favo = Object.values(data).filter((item) => item.sale);
+      resolve(favo);
+    })
     .catch(reject);
 });
 

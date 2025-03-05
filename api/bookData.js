@@ -1,9 +1,11 @@
+import { showBooks } from '../pages/books';
 import client from '../utils/client';
 // API CALLS FOR BOOKS
 
 const endpoint = client.databaseURL;
 
 // TODO: GET BOOKS
+
 const getBooks = (uid) => new Promise((resolve, reject) => {
   fetch(`${endpoint}/books.json?orderBy="uid"&equalTo="${uid}"`, {
     method: 'GET',
@@ -23,6 +25,7 @@ const getBooks = (uid) => new Promise((resolve, reject) => {
 });
 
 // TODO: DELETE BOOK
+
 const deleteBook = (firebaseKey) => new Promise((resolve, reject) => {
   fetch(`${endpoint}/books/${firebaseKey}.json`, {
     method: 'DELETE',
@@ -36,6 +39,7 @@ const deleteBook = (firebaseKey) => new Promise((resolve, reject) => {
 });
 
 // TODO: GET SINGLE BOOK
+
 const getSingleBook = (firebaseKey) => new Promise((resolve, reject) => {
   fetch(`${endpoint}/books/${firebaseKey}.json`, {
     method: 'GET',
@@ -49,6 +53,7 @@ const getSingleBook = (firebaseKey) => new Promise((resolve, reject) => {
 });
 
 // TODO: CREATE BOOK
+
 const createBook = (payload) => new Promise((resolve, reject) => {
   fetch(`${endpoint}/books.json`, {
     method: 'POST',
@@ -63,6 +68,7 @@ const createBook = (payload) => new Promise((resolve, reject) => {
 });
 
 // TODO: UPDATE BOOK
+
 const updateBook = (payload) => new Promise((resolve, reject) => {
   fetch(`${endpoint}/books/${payload.firebaseKey}.json`, {
     method: 'PATCH',
@@ -77,6 +83,7 @@ const updateBook = (payload) => new Promise((resolve, reject) => {
 });
 
 // TODO: FILTER BOOKS ON SALE
+
 const booksOnSale = (uid) => new Promise((resolve, reject) => {
   fetch(`${endpoint}/books.json?orderBy="uid"&equalTo="${uid}`, {
     method: 'GET',
@@ -94,11 +101,20 @@ const booksOnSale = (uid) => new Promise((resolve, reject) => {
 
 // TODO: STRETCH...SEARCH BOOKS
 
+const bookSrch = (user) => {
+  const search = document.querySelector('#search').value.toLowerCase();
+  getBooks(user.uid).then((books) => {
+    const srchdBooks = books.filter((book) => book.title.toLowerCase().includes(search));
+    showBooks(srchdBooks);
+  });
+};
+
 export {
   getBooks,
   createBook,
   booksOnSale,
   deleteBook,
   getSingleBook,
-  updateBook
+  updateBook,
+  bookSrch
 };
